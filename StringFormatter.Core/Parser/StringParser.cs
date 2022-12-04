@@ -102,18 +102,18 @@ namespace StringFormatter.Core.Parser
 
         private static void State12(char symbol, ParserContext context)
         {
-            //_context.OpenCurlyBraceCount++;
+            context.OpenCurlyBraceCount++;
         }
 
         private static void State13(char symbol, ParserContext context)
         {
-            context.CloseCurlyBraceCount++;
+            //context.CloseCurlyBraceCount++;
         }
 
         private static void State21(char symbol, ParserContext context)
         {
             context.ResultBuilder.Append(symbol);
-            context.OpenCurlyBraceCount = context.OpenCurlyBraceCount - 2;
+            context.OpenCurlyBraceCount--;
         }
 
         private static void State24(char symbol, ParserContext context)
