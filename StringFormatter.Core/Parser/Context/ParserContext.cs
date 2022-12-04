@@ -6,7 +6,7 @@ namespace StringFormatter.Core.Parser.Context
     {
         public object Target { get; init; }
         public StringBuilder ResultBuilder { get; init; }
-        public StringBuilder IdentifierNameBuilder { get; init; }
+        public StringBuilder ExpressionBuilder { get; init; }
 
         public int OpenCurlyBraceCount { get; set; }
         public int CloseCurlyBraceCount { get; set; }
@@ -15,7 +15,7 @@ namespace StringFormatter.Core.Parser.Context
         {
             Target = target;
             ResultBuilder= new StringBuilder();
-            IdentifierNameBuilder = new StringBuilder();
+            ExpressionBuilder = new StringBuilder();
             OpenCurlyBraceCount = 0;
             CloseCurlyBraceCount = 0;
         }

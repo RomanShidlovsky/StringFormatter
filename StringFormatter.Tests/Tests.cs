@@ -14,9 +14,10 @@ namespace StringFormatter.Tests
         {
             
             var user = new User();
-            var result = Core.StringFormatter.Shared.Format("{{{Name}!", user);
-
+            var result = Core.StringFormatter.Shared.Format("{Name[[0]]}!", user);
+            
             Assert.That(result, Is.EqualTo("{FIELD_VALUE!"));
+            
         }
     }
 

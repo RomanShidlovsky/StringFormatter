@@ -22,7 +22,5 @@ namespace StringFormatter.Core
         {
             return _parser.Parse(template, target);
         }
-
-
     }
 }
