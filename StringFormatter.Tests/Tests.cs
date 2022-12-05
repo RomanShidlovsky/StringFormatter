@@ -14,15 +14,15 @@ namespace StringFormatter.Tests
         {
             
             var user = new User();
-            var result = Core.StringFormatter.Shared.Format("{Name[[0]]}!", user);
+            var result = Core.StringFormatter.Shared.Format("{Ints[3}!", user);
             
-            Assert.That(result, Is.EqualTo("{FIELD_VALUE!"));
-            
+            Assert.That(result, Is.EqualTo("Vasya!"));
         }
     }
 
     public class User
     {
         public string Name { get; set; } = "Vasya";
+        public int[] Ints = new int[3] {1, 2, 3};
     }
 }

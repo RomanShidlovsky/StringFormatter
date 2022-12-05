@@ -1,4 +1,5 @@
-﻿using StringFormatter.Core.Interfaces;
+﻿using StringFormatter.Core.Cache;
+using StringFormatter.Core.Interfaces;
 using StringFormatter.Core.Parser.Context;
 
 namespace StringFormatter.Core.Parser
@@ -7,10 +8,8 @@ namespace StringFormatter.Core.Parser
     {
         private const string Letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string Numbers = "0123456789";
-        private const char Underscore = '_';
-        private const char OpenCurlyBrace = '{';
-        private const char CloseCurlyBrace = '}';
-
+        private static ExpressionsCache _cache= new ExpressionsCache();
+        
         private delegate void StateMatrixDelegate(char character, ParserContext context);
 
         private StateMatrixDelegate[,] _stateMatrix = new StateMatrixDelegate[7, 7]
@@ -32,9 +31,6 @@ namespace StringFormatter.Core.Parser
 
             for(int i = 0; i < template.Length; i++)
             {
-                /*char character = template[i];
-                char nextcharacter*/
-
                 var character = template[i];
 
                 switch (state)
@@ -93,7 +89,7 @@ namespace StringFormatter.Core.Parser
                         else if (character == ']')
                             nextState = 6;
                         else
-                            throw new Exception($"Invalid character '{character}' in collection index at position {i}");
+                            throw new Exception($"Expected ] but found '{character}' at position {i}");
 
                         _stateMatrix[state, nextState](character, context);
                         state = nextState;
@@ -163,9 +159,8 @@ namespace StringFormatter.Core.Parser
 
         private static void State41(char character, ParserContext context)
         {
-            // add identifier to cash
-            // add value of field to result
-            context.ResultBuilder.Append(context.ExpressionBuilder.ToString());
+            var value = _cache.GetValue(context.ExpressionBuilder.ToString(), context.Target);
+            context.ResultBuilder.Append(value);
             //context.CloseCurlyBraceCount++;
         }
 
@@ -191,8 +186,8 @@ namespace StringFormatter.Core.Parser
 
         private static void State61(char character, ParserContext context)
         {
-            // add to cash
-            context.ResultBuilder.Append(context.ExpressionBuilder.ToString());
+            var value = _cache.GetValue(context.ExpressionBuilder.ToString(), context.Target);
+            context.ResultBuilder.Append(value);
         }
     }
 }
